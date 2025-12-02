@@ -1,95 +1,85 @@
 <template>
     <section>
 
-
-        <!-- Create New Campaign Button -->
-    <div class="mb-6 flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-
-
-            <!-- Search Bar and Per Page Selector -->
-            <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center w-full flex-1">
-                <!-- Search Bar -->
-                <div class="relative flex-1 min-w-0 order-1 sm:order-2">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
-                    <input
-                        v-model="searchQuery"
-                        type="text"
-                        placeholder="Search campaigns by name..."
-                        class="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                    <div v-if="searchQuery" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <button
-                            @click="searchQuery = ''"
-                            class="text-gray-400 hover:text-gray-200 focus:outline-none"
-                        >
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <button
-                @click="showCreateForm = !showCreateForm"
-                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 focus:bg-blue-500 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
-            >
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
-                <span class="create-campaign-button" >Create New Campaign</span>
-            </button>
-        </div>
-
-        <!-- Additional Filters -->
+        <!-- Combined Search + Filters + Create (single row on desktop, stacked on mobile) -->
         <div class="mb-6 p-4 bg-gray-800 border border-gray-700 rounded-lg">
-            <h3 class="text-sm font-medium text-gray-200 mb-3">Filters</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Status Filter -->
-                <div>
-                    <label class="block text-xs font-medium text-gray-400 mb-1">Status</label>
-                    <select
-                        v-model="statusFilter"
-                        class="block w-full px-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    >
-                        <option value="all">All Statuses</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
+            <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between w-full">
+                <div class="flex-1 w-full">
+                    <div class="flex flex-col sm:flex-row gap-4 w-full items-start sm:items-center">
+                        <!-- Search -->
+                        <div class="flex-1 min-w-0">
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </div>
+                                <input
+                                    v-model="searchQuery"
+                                    type="text"
+                                    placeholder="Search campaigns by name..."
+                                    class="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                                <div v-if="searchQuery" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <button
+                                        @click="searchQuery = ''"
+                                        class="text-gray-400 hover:text-gray-200 focus:outline-none"
+                                    >
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Inline Filters -->
+                        <div class="flex items-end sm:items-center gap-3 w-full sm:w-auto">
+                            <div class="w-full sm:w-48">
+                                <label class="sr-only">Status</label>
+                                <select
+                                    v-model="statusFilter"
+                                    class="block w-full px-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                >
+                                    <option value="all">All Statuses</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+
+                            <div class="w-full sm:w-44">
+                                <label class="sr-only">End Date</label>
+                                <input
+                                    v-model="endDateFilter"
+                                    type="date"
+                                    class="block w-full px-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                            </div>
+
+                            <div class="flex items-end sm:items-center w-full sm:w-auto">
+                                <button
+                                    @click="clearFilters"
+                                    class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-300 bg-gray-600 border border-gray-600 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-150 whitespace-nowrap"
+                                >
+                                    Clear Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Start Date Filter -->
-                <div>
-                    <label class="block text-xs font-medium text-gray-400 mb-1">Start Date From</label>
-                    <input
-                        v-model="startDateFilter"
-                        type="date"
-                        class="block w-full px-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                </div>
-
-                <!-- End Date Filter -->
-                <div>
-                    <label class="block text-xs font-medium text-gray-400 mb-1">End Date Until</label>
-                    <input
-                        v-model="endDateFilter"
-                        type="date"
-                        class="block w-full px-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                </div>
-
-                <!-- Clear Filters Button -->
-                <div class="flex items-end">
+                <!-- Create New Campaign Button -->
+                <div class="w-full lg:w-auto">
                     <button
-                        @click="clearFilters"
-                        class="w-full px-4 py-2 text-sm font-medium text-gray-300 bg-gray-600 border border-gray-600 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-150"
+                        @click="showCreateForm = !showCreateForm"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 focus:bg-blue-500 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
-                        Clear Filters
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span class="create-campaign-button">Create New Campaign</span>
                     </button>
                 </div>
             </div>
@@ -338,7 +328,6 @@ const perPage = ref(props.filters?.per_page || 10)
 const statusFilter = ref(props.filters?.status || 'all')
 const sortBy = ref(props.filters?.sort_by || '')
 const sortDir = ref(props.filters?.sort_dir || 'desc')
-const startDateFilter = ref(props.filters?.start_date || '')
 const endDateFilter = ref(props.filters?.end_date || '')
 
 // Extract campaigns data from either array or paginated object
@@ -353,7 +342,6 @@ const campaignsData = computed(() => {
 const hasActiveFilters = computed(() => {
     return searchQuery.value ||
            statusFilter.value !== 'all' ||
-           startDateFilter.value ||
            endDateFilter.value
 })
 
@@ -362,7 +350,7 @@ const debouncedSearch = debounce((filters) => {
     router.get(window.location.pathname,
         filters,
         {
-            preserveState: false,
+            preserveState: true,
             replace: true
         }
     )
@@ -372,7 +360,6 @@ const debouncedSearch = debounce((filters) => {
 const getCurrentFilters = () => ({
     search: searchQuery.value,
     status: statusFilter.value !== 'all' ? statusFilter.value : null,
-    start_date: startDateFilter.value || null,
     end_date: endDateFilter.value || null,
     per_page: perPage.value
     ,
@@ -385,16 +372,6 @@ watch(searchQuery, () => {
 })
 
 watch(statusFilter, () => {
-    router.get(window.location.pathname,
-        getCurrentFilters(),
-        {
-            preserveState: true,
-            replace: true
-        }
-    )
-})
-
-watch(startDateFilter, () => {
     router.get(window.location.pathname,
         getCurrentFilters(),
         {
@@ -439,7 +416,6 @@ watch([sortBy, sortDir], () => {
 const clearFilters = () => {
     searchQuery.value = ''
     statusFilter.value = 'all'
-    startDateFilter.value = ''
     endDateFilter.value = ''
     // Keep per_page as is
 }

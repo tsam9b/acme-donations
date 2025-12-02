@@ -115,6 +115,14 @@ class DonationController extends Controller
             'payment_method' => ['nullable', 'string'],
         ]);
 
+        // Check if campaign accepts donations (must be active)
+        $campaign = DB::table('campaigns')->where('id', $validated['campaign_id'])->first();
+        if (!$campaign || in_array($campaign->status, ['inactive', 'cancelled', 'completed'])) {
+            return back()->withErrors([
+                'campaign' => 'This campaign is not currently accepting donations.'
+            ]);
+        }
+
         $now = now();
         $donationId = null;
 
@@ -159,6 +167,14 @@ class DonationController extends Controller
 
             // Update campaign current_amount
             DB::table('campaigns')->where('id', $validated['campaign_id'])->increment('current_amount', $validated['amount']);
+
+            // Check if goal is reached and update status to completed
+            $campaign = DB::table('campaigns')->where('id', $validated['campaign_id'])->first();
+            if ($campaign && $campaign->goal_amount > 0 && $campaign->current_amount >= $campaign->goal_amount) {
+                DB::table('campaigns')
+                    ->where('id', $validated['campaign_id'])
+                    ->update(['status' => 'completed', 'updated_at' => $now]);
+            }
         });
 
         // Get donation, campaign, and donor data for email

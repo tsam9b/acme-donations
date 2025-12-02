@@ -13,7 +13,7 @@ rm -f database/database.sqlite
 
 # 3) Rebuild images
 echo "3️⃣ Rebuilding containers..."
-docker compose build --no-cache
+docker compose build
 
 # 4) Install PHP dependencies inside app container (bypassing entrypoint)
 echo "4️⃣ Installing PHP dependencies with Composer inside container..."

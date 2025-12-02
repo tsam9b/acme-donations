@@ -20,7 +20,6 @@ defineProps({
 // Reactive filter variables
 const searchQuery = ref(window.$page?.props?.filters?.search ?? (new URLSearchParams(window.location.search).get('search') || ''));
 const perPage = ref(window.$page?.props?.filters?.per_page ?? (new URLSearchParams(window.location.search).get('per_page') || 12));
-const startDateFilter = ref(window.$page?.props?.filters?.start_date ?? (new URLSearchParams(window.location.search).get('start_date') || ''));
 const endDateFilter = ref(window.$page?.props?.filters?.end_date ?? (new URLSearchParams(window.location.search).get('end_date') || ''));
 const statusFilter = ref(window.$page?.props?.filters?.status ?? (new URLSearchParams(window.location.search).get('status') || 'all'));
 
@@ -29,11 +28,10 @@ const showDonationModal = ref(false);
 const selectedCampaign = ref(null);
 const refreshing = ref(false);
 
-const hasActiveFilters = computed(() => !!(searchQuery.value || startDateFilter.value || endDateFilter.value || (statusFilter.value && statusFilter.value !== 'all')));
+const hasActiveFilters = computed(() => !!(searchQuery.value || endDateFilter.value || (statusFilter.value && statusFilter.value !== 'all')));
 
 const getCurrentFilters = () => ({
     search: searchQuery.value || null,
-    start_date: startDateFilter.value || null,
     end_date: endDateFilter.value || null,
     status: statusFilter.value && statusFilter.value !== 'all' ? statusFilter.value : null,
     per_page: perPage.value || 12
@@ -44,17 +42,20 @@ const debouncedSearch = debounce((filters) => {
 }, 300);
 
 watch(searchQuery, () => debouncedSearch(getCurrentFilters()));
-watch([startDateFilter, endDateFilter, perPage, statusFilter], () => {
+watch([endDateFilter, perPage, statusFilter], () => {
     router.get('/', getCurrentFilters(), { preserveState: true, replace: true });
 });
 
 const clearFilters = () => {
     searchQuery.value = '';
-    startDateFilter.value = '';
     endDateFilter.value = '';
 };
 
 const openDonationModal = (campaign) => {
+    // Prevent donations to inactive, cancelled, or completed campaigns
+    if (campaign.status === 'inactive' || campaign.status === 'cancelled' || campaign.status === 'completed') {
+        return;
+    }
     selectedCampaign.value = campaign;
     showDonationModal.value = true;
 };
@@ -140,7 +141,7 @@ const handleDonation = () => {
 
                             <!-- Filters -->
                             <div class="flex flex-wrap gap-3 items-center">
-                                <select v-model="perPage" class="block px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:border-[#FF2D20]">
+                                <select v-model="perPage" class="block px-5 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:border-[#FF2D20]">
                                     <option value="6">6 per page</option>
                                     <option value="12">12 per page</option>
                                     <option value="24">24 per page</option>
@@ -154,7 +155,6 @@ const handleDonation = () => {
                                     </option>
                                 </select>
 
-                                <input v-model="startDateFilter" type="date" class="block px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:border-[#FF2D20]" />
                                 <input v-model="endDateFilter" type="date" class="block px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:border-[#FF2D20]" />
 
                                 <button @click="clearFilters" class="w-full sm:w-auto px-3 py-2 text-sm font-medium text-gray-300 bg-gray-600 border border-gray-600 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-150">
@@ -171,7 +171,10 @@ const handleDonation = () => {
                             :key="campaign.id"
                             :campaign="campaign"
                             @click="openDonationModal(campaign)"
-                            class="cursor-pointer hover:scale-105 transition-transform duration-200"
+                            :class="[
+                                'transition-transform duration-200',
+                                campaign.status === 'active' ? 'cursor-pointer hover:scale-105' : 'opacity-60 cursor-not-allowed'
+                            ]"
                         />
                     </div>
 
