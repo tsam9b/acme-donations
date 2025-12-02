@@ -141,7 +141,7 @@ const handleDonation = () => {
 
                             <!-- Filters -->
                             <div class="flex flex-wrap gap-3 items-center">
-                                <select v-model="perPage" class="block px-5 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:border-[#FF2D20]">
+                                <select v-model="perPage" class="block px-8 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:border-[#FF2D20]">
                                     <option value="6">6 per page</option>
                                     <option value="12">12 per page</option>
                                     <option value="24">24 per page</option>
