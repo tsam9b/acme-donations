@@ -1,0 +1,5 @@
+{
+    "messages": { "confirmation": "assas", "receipt_subject": "assaas" },
+    "availableStatus": ["active","inactive","completed","cancelled"],
+    "predefinedAmounts": [10, 20, 50, 100, 200]
+}

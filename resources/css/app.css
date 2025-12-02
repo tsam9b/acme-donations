@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.admin-label {
+    margin: 0px 8px;
+}
+.create-campaign-button{
+    padding-top: 4px;
+}
