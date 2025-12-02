@@ -4,6 +4,18 @@ A modern donation platform built with Laravel 12, Vue.js 3, and Tailwind CSS usi
 
 ## 🚀 Quick Start
 
+
+
+
+## Scenario 1
+
+Run 
+   ```bash
+   chmod +x docker-rebuild.sh      # once
+   ./docker-rebuild.sh
+   ```
+## Scenario 2
+
 ### Prerequisites
 
 Make sure you have the following installed:
