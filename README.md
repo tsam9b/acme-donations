@@ -21,7 +21,8 @@ chmod +x docker-rebuild.sh   # only needed once
 | Dan Donor         | dan@example.test           | password   | user  |
 
 **Additional Resources:**
-- 📹 **Video Demo** — [Check the video walkthrough](#https://drive.google.com/drive/folders/1kubofq8rOkvlnW5XZ5i_rTFL5UFhC194)
+- 📹 **Video Demo** — Check the video walkthrough
+https://drive.google.com/drive/folders/1kubofq8rOkvlnW5XZ5i_rTFL5UFhC194)
 - 📄 **Architecture Overview** — See [`OVERVIEW.md`](OVERVIEW.md) for detailed documentation
 - 🔄 **Data Flow Diagram** — View [`docs/flow.svg`](docs/flow.svg) for a visual representation of the request flow
 
