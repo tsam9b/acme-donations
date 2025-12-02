@@ -12,15 +12,6 @@ if (!initial.welcome) initial.welcome = { title: '', subtitle: '' }
 // Use a reactive deep-cloned local copy so nested fields are reactive in the template
 const local = reactive(initial)
 
-// Keep local in sync when parent value changes
-watch(() => props.value, (v) => {
-  const next = JSON.parse(JSON.stringify(v || {}))
-  if (!next.welcome) next.welcome = { title: '', subtitle: '' }
-  // replace keys on local
-  Object.keys(local).forEach(k => { delete local[k] })
-  Object.assign(local, next)
-}, { deep: true })
-
 // Emit updates whenever local changes; emit a deep-cloned value to avoid leaking reactive internals
 watch(local, () => {
   const out = JSON.parse(JSON.stringify(local || DEFAULT))

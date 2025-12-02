@@ -2,19 +2,48 @@
 
 A modern donation platform built with Laravel 12, Vue.js 3, and Tailwind CSS using Inertia.js for seamless SPA functionality.
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Docker-first) - Recommended
 
+The easiest way to run the project is via Docker. This will build the PHP app, compile the frontend assets, and start everything for you.
 
+```bash
+chmod +x docker-rebuild.sh   # only needed once
+./docker-rebuild.sh
+```
 
+**Test Accounts:** The following accounts are created automatically for testing:
 
-## Scenario 1
+| Name              | Email                      | Password   | Role  |
+|-------------------|----------------------------|------------|-------|
+| Alice Admin       | alice.admin@example.test   | password   | admin |
+| Bob Builder       | bob@example.test           | password   | user  |
+| Cara Contributor  | cara@example.test          | password   | user  |
+| Dan Donor         | dan@example.test           | password   | user  |
 
-Run 
-   ```bash
-   chmod +x docker-rebuild.sh      # once
-   ./docker-rebuild.sh
-   ```
-## Scenario 2
+**Additional Resources:**
+- 📹 **Video Demo** — [Check the video walkthrough](#) _(add your link here)_
+- 📄 **Architecture Overview** — See [`OVERVIEW.md`](OVERVIEW.md) for detailed documentation
+- 🔄 **Data Flow Diagram** — View [`docs/flow.svg`](docs/flow.svg) for a visual representation of the request flow
+
+**What the script does:**
+
+This script will:
+- Stop and remove any existing containers and volumes for this project
+- Remove the local SQLite file at `database/database.sqlite`
+- Rebuild the images and start the containers
+- Run the Node build step (`npm run build`) inside the `node` service
+
+When it finishes, the app will be available at:
+
+- http://localhost:8080
+
+> ⚠️ Note: `docker-rebuild.sh` is **destructive** to local data. It removes the SQLite database and volumes, so you will lose any locally stored records each time you run it.
+
+---
+
+## Scenario 2 — Local development (without Docker)
+
+If you prefer to run everything directly on your machine (for example, when hacking on PHP or Vue without Docker), use the steps below.
 
 ### Prerequisites
 

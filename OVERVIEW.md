@@ -8,6 +8,7 @@
 - Open a campaign to view details and progress toward its goal.
 - Click Donate to open the donation modal, choose an amount and a payment method, and complete a donation (currently a dummy payment flow).
 - After donating, you will receive a confirmation email.
+- If a capaign reaches its goal it will set to 'Completed' status
 
 ### User dashboard — available actions:
 

@@ -6,8 +6,6 @@ const emit = defineEmits(['update'])
 const availableOptions = ['active', 'inactive', 'completed', 'cancelled']
 const local = ref(Array.isArray(props.value) ? [...props.value] : [])
 
-watch(() => props.value, (v) => { local.value = Array.isArray(v) ? [...v] : [] }, { deep: true })
-
 const toggle = (opt) => {
     const idx = local.value.indexOf(opt)
     if (idx === -1) local.value.push(opt)

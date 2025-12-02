@@ -5,8 +5,6 @@ const emit = defineEmits(['update'])
 
 const local = ref(Array.isArray(props.value) ? [...props.value] : [])
 
-watch(() => props.value, (v) => { local.value = Array.isArray(v) ? [...v] : [] }, { deep: true })
-
 // Emit update whenever local changes
 watch(local, (v) => { emit('update', v) }, { deep: true })
 

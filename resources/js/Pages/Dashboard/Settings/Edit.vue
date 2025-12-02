@@ -69,8 +69,8 @@ const savePart = (partName) => {
 
                     <!-- Messages card -->
                     <div class="bg-gray-900 p-6 rounded mb-6">
-                        <h3 class="text-lg font-medium text-gray-100 mb-3">Messages</h3>
-                        <p class="text-sm text-gray-400 mb-4">Customize message templates used in emails and confirmations.</p>
+                        <h3 class="text-lg font-medium text-gray-100 mb-3">Titles</h3>
+                        <p class="text-sm text-gray-400 mb-4">Customize welcome page title and subtitle</p>
 
                         <Messages
                             :value="(form.settings && form.settings.messages) ? form.settings.messages : {}"
@@ -83,7 +83,7 @@ const savePart = (partName) => {
                                 :disabled="form.processing"
                                 class="inline-flex items-center px-4 py-2 bg-[#FF2D20] text-white font-semibold rounded-lg hover:bg-red-700 transition duration-150"
                             >
-                                Save Messages
+                                Save Titles
                             </button>
 
                             <p v-if="savedPart === 'messages'" class="mt-1 text-sm text-gray-300">Saved.</p>
